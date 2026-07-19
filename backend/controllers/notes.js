@@ -12,4 +12,28 @@ const addNote = async (req, res) => {
     if(!content) {
         return res.status(400).json({error: true, message: "Content is required"})
     }
+
+    try {
+        const note = new Note({
+            title,
+            content,
+            tags: tags || [],
+            userId: user._id
+        })
+
+        await note.save()
+
+        return res.json({
+            error: false,
+            note,
+            message: "Note added successfully"
+        });
+    } catch (error) {
+        return res.status(500).json({
+            error: true,
+            message: "Internal Server Error"
+        })
+    }
 }
+
+module.exports = addNote
