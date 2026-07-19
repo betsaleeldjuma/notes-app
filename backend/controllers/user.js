@@ -1,11 +1,11 @@
-const express = require('express')
+const User = require("../models/User");
+const jwt = require('jsonwebtoken')
 
 const userCount = (req, res) => {
     res.json({data: 'hello'});
 }
 
 const newCount = ( async (req, res) => {
-    console.log(req.body)
 
     const {fullName, email, password} = req.body;
 
