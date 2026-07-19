@@ -10,6 +10,7 @@ const app = express();
 const {authentification} = require('./utilities');
 const router = require('./routers/user');
 const connectDB = require('./db/connectDB');
+const routerNote = require('./routers/notes');
 
 const PORT = process.env.PORT || 3000;
 
@@ -26,6 +27,8 @@ app.use(
 );
 
 app.use(router);
+
+app.use(routerNote);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
