@@ -1,6 +1,5 @@
 require('dotenv').config();
 const config = require('./config.json');
-// const mongoose = require('mongoose');
 
 const User = require('./models/User')
 
@@ -8,7 +7,6 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
-const jwt = require('jsonwebtoken');
 const {authentification} = require('./utilities');
 const router = require('./routers/user');
 const connectDB = require('./db/connectDB');
