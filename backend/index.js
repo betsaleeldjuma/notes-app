@@ -2,7 +2,8 @@ require('dotenv').config();
 const config = require('./config.json');
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGO_URI);
+// Connexion MongoDB
+// mongoose.connect(config.connectionString);
 
 const User = require('./models/user.models')
 
@@ -12,6 +13,8 @@ const app = express('');
 
 const jwt = require('jsonwebtoken');
 const {authentification} = require('./utilities')
+
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
@@ -74,7 +77,7 @@ app.post('/create-account', async(req, res) => {
     })
 })
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server running on port ${process.env.PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
 module.exports = app;
