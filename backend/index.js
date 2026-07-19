@@ -1,21 +1,23 @@
 require('dotenv').config();
 const config = require('./config.json');
-const mongoose = require('mongoose');
-
-// Connexion MongoDB
-// mongoose.connect(config.connectionString);
+// const mongoose = require('mongoose');
 
 const User = require('./models/user.models')
 
 const express = require('express');
 const cors = require('cors');
-const app = express('');
+const app = express();
 
 const jwt = require('jsonwebtoken');
 const {authentification} = require('./utilities');
 const router = require('./routers/user');
+const connectDB = require('./db/connectDB');
 
 const PORT = process.env.PORT || 3000;
+
+const DATABASE_URL = process.env.DATABASE_URL || "mongodb://127.0.0.1:27017/user"
+
+connectDB(DATABASE_URL)
 
 app.use(express.json());
 
