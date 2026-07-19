@@ -38,7 +38,7 @@ const addNote = async (req, res) => {
 
 const editNote = async (req, res) => {
     const noteId = req.params.noteId;
-    const {title, content, isPinned} = req.body;
+    const {title, content, tags, isPinned} = req.body;
     const {user} = req.user;
     
     if(!title && !content && !tags) {
@@ -116,5 +116,38 @@ const deleteNote = async (req, res) => {
     }
 }
 
+const updateIsPinned = async (req, res) => {
+    const noteId = req.params.noteId;
+    const {isPinned} = req.body;
+    const {user} = req.user;
+    
+    if(!title && !content && !tags) {
+        return res.status(400).json({error: true, message: "No changes provided"})
+    }
 
-module.exports = {addNote, editNote, getAllNotes, deleteNote}
+    try {
+        const note = await Note.findOne({_id: noteId, userId: user._id})
+        
+        if(!note) {
+            return res.status(404).json({error: true, message: "Note not found"})
+        }
+
+        if(isPinned) note.isPinned = isPinned;
+
+        await note.save();
+
+        return res.json({
+            error: false,
+            note,
+            message: "Note updated successfully"
+        })
+    } catch (error) {
+        return res.status(500).json({
+            error: true,
+            message: "Internal Server Error"
+        })
+    }
+}
+
+
+module.exports = {addNote, editNote, getAllNotes, deleteNote, updateIsPinned}
