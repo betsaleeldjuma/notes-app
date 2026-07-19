@@ -12,7 +12,8 @@ const cors = require('cors');
 const app = express('');
 
 const jwt = require('jsonwebtoken');
-const {authentification} = require('./utilities')
+const {authentification} = require('./utilities');
+const router = require('./routers/user');
 
 const PORT = process.env.PORT || 3000;
 
@@ -24,58 +25,7 @@ app.use(
     })
 );
 
-app.get('/', (req, res) => {
-    res.json({data: 'hello'});
-});
-
-// Create Account
-app.post('/create-account', async(req, res) => {
-    const {fullName, email, password} = req.body;
-
-    if(!fullName) {
-        return res
-            .status(400)
-            .json({ error: true, message: 'Full Name is required' })
-    }
-
-    if(!email) {
-        return res.status(400).json({ error: true, message: 'Email is required'});
-    }
-
-    if(!password) {
-        return res
-            .status(400)
-            .json({error: true, message: 'Password is required'})
-    }
-
-    const isUser = await User.findOne({email: email});
-
-    if(isUser) {
-        return res.json({
-            error: true,
-            message: 'User already exist'
-        })
-    }
-
-    const user = new User({
-        fullName,
-        email,
-        password
-    });
-
-    await user.save();
-
-    const accessToken = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "36000m",
-    });
-
-    return res.json({
-        error: false,
-        user,
-        accessToken,
-        message: "Registration Successful"
-    })
-})
+app.use(router);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
