@@ -8,6 +8,7 @@ import Modal from 'react-modal'
 import { useNavigate } from 'react-router-dom'
 import axiosInstance from '../../utils/axiosInstance'
 import Toast from '../../components/ToastMessage/Toast'
+import EmptyCard from '../../components/EmptyCard/EmptyCard'
 
 const Home = () => {
   const [openAddEditModal, setOpenAddEditModal] = useState({
@@ -102,7 +103,7 @@ const Home = () => {
     <>
       <Navbar userInfo={userInfo} />
       <div className='container mx-auto'>
-        {<div className='grid grid-cols-3 gap-4 mt-8'>
+        {allNotes.length > 0 ? <div className='grid grid-cols-3 gap-4 mt-8'>
           {allNotes.map((item, index) => {
             <NoteCard 
             key={item._id}
@@ -115,7 +116,9 @@ const Home = () => {
             onPinNote={() => {}}  
             />
           })}
-        </div>}
+        </div> : {
+          <EmptyCard message={`Start creating your first note! Click the 'Add' button to jot down your thoughts, ideas, and reminders. Let's get started`} />
+        }}
         <button className='w-16 h-16 flex items-center justify-center rounded-2xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10' 
         onClick={() => {
           setOpenAddEditModal({isShow: true, type:"add", data: null})
