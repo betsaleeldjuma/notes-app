@@ -5,6 +5,7 @@ const userCount = (req, res) => {
     res.json({data: 'hello'});
 }
 
+// Create User
 const newCount =  async (req, res) => {
 
     const {fullName, email, password} = req.body;
@@ -54,6 +55,7 @@ const newCount =  async (req, res) => {
     })
 }
 
+// Login
 const login = (async (req, res) => {
     const {email, password} = req.body;
 
@@ -91,6 +93,7 @@ const login = (async (req, res) => {
     } 
 }) 
 
+// Get User
 const getUser = async (req, res) => {
     const {user} = req.user;
 
