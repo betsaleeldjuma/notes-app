@@ -121,7 +121,7 @@ const updateIsPinned = async (req, res) => {
     const {isPinned} = req.body;
     const {user} = req.user;
     
-    if(!title && !content && !tags) {
+    if(!isPinned) {
         return res.status(400).json({error: true, message: "No changes provided"})
     }
 
@@ -132,7 +132,7 @@ const updateIsPinned = async (req, res) => {
             return res.status(404).json({error: true, message: "Note not found"})
         }
 
-        if(isPinned) note.isPinned = isPinned;
+        if(isPinned) note.isPinned = isPinned ;
 
         await note.save();
 
