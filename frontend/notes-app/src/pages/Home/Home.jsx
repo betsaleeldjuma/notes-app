@@ -25,6 +25,7 @@ const Home = () => {
 
   const [allNotes, setAllNotes] = useState([])
   const [userInfo, setUserInfo] = useState(null)
+  const [isSearch, setIsSearch] = useState(false)
 
   const navigate = useNavigate()
 
@@ -92,6 +93,23 @@ const Home = () => {
         }
   }
 
+  const onSearchNote = async (query) => {
+    try {
+      const response = await axiosInstance.get('/search-notes', {
+        params: {query}
+      })
+
+      if(response.data && response.data.notes) {
+        setIsSearch(true);
+        setAllNotes(response.data.notes)
+      }
+    } catch(error) {
+      console.log(error)
+    }
+  }
+
+  const 
+
   useEffect(() => {
     showToastMessage("Note Updated Successfully")
     getAllNotes()
@@ -101,7 +119,7 @@ const Home = () => {
 
   return (
     <>
-      <Navbar userInfo={userInfo} />
+      <Navbar userInfo={userInfo} onSearchNote={onSearchNote} />
       <div className='container mx-auto'>
         {allNotes.length > 0 ? <div className='grid grid-cols-3 gap-4 mt-8'>
           {allNotes.map((item, index) => {
@@ -117,7 +135,7 @@ const Home = () => {
             />
           })}
         </div> : {
-          <EmptyCard message={`Start creating your first note! Click the 'Add' button to jot down your thoughts, ideas, and reminders. Let's get started`} />
+          <EmptyCard message={`Start creating your first note! Click the 'Add' button to jot down your thoughts, ideas, and reminders. Let's get started`} imgSrc={} />
         }}
         <button className='w-16 h-16 flex items-center justify-center rounded-2xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10' 
         onClick={() => {
