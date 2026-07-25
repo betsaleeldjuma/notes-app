@@ -1,5 +1,6 @@
 const User = require("../models/User");
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt')
 
 const userCount = (req, res) => {
     res.json({data: 'hello'});
@@ -7,111 +8,134 @@ const userCount = (req, res) => {
 
 // Create User
 const newCount =  async (req, res) => {
+    try{
+        const {fullName, email, password} = req.body;
 
-    const {fullName, email, password} = req.body;
+        if(!fullName || !email || !password) {
+            return res.status(400).json({
+                error: true,
+                message: "All input required"
+            })
+        }
 
-    if(!fullName) {
-        return res
-            .status(400)
-            .json({ error: true, message: 'Full Name is required' })
-    }
+        const existingUser = await User.findOne({ email });
 
-    if(!email) {
-        return res.status(400).json({ error: true, message: 'Email is required'});
-    }
+        if(existingUser) {
+            return res.status(400).json({
+                error: true,
+                message: "User existing"
+            })
+        }
 
-    if(!password) {
-        return res
-            .status(400)
-            .json({error: true, message: 'Password is required'})
-    }
+        const hashedPassword = await bcrypt.hash(password, 10)
+        
+        const user = new User ({
+            fullName,
+            email,
+            password: hashedPassword
+        });
 
-    const isUser = await User.findOne({email: email});
+        await user.save();
 
-    if(isUser) {
-        return res.json({
+        const token = jwt.sign(
+            {id: user._id},
+            process.env.ACCESS_TOKEN_SECRET,
+            {expiresIn: '2h'}
+        )
+
+        res.status(201).json({
+            error: false,
+            message: "Account created",
+            token,
+            user: {
+                id: user._id,
+                fullName: user.fullName,
+                email: user.email
+            }
+        })
+    } catch (error) {
+        res.status(500).json({
             error: true,
-            message: 'User already exist'
+            message: error.message
         })
     }
-
-    const user = new User({
-        fullName,
-        email,
-        password
-    });
-
-    await user.save();
-
-    const accessToken = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "36000m",
-    });
-
-    return res.json({
-        error: false,
-        user,
-        accessToken,
-        message: "Registration Successful"
-    })
 }
 
 // Login
 const login = (async (req, res) => {
-    const {email, password} = req.body;
+    try {
+        const {email, password} = req.body;
 
-    if(!email) {
-        return res.status(400).json({message: "Email is required"})
-    };
+        if(!email || !password) {
+            return res.status(400).json({
+                error: true,
+                message: "Email or password invalid"
+            })
+        }
 
-    if(!password) {
-        return res.status(400).json({message: "Password is required"})
-    }
+        const user = await User.findOne({email});
 
-    const userInfo = await User.findOne({email: email});
+        if(!user) {
+            return res.status(400).json({
+                error: true,
+                message: "Email or password incorrect"
+            })
+        }
 
-    if(!userInfo) {
-        return res.status(400).json({message: "User not found"})
-    }
+        const isMatch = await bcrypt.compare(password, user.password);
 
-    if(userInfo.email === email && userInfo.password === password) {
-        const user = {user: userInfo};
-        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: "36000m",
-        });
+        if(!isMatch) {
+            return res.status(400).json({
+                error: true,
+                message: "Email or password incorrect"
+            })
+        }
 
-        return res.json({
+        const token = jwt.sign(
+            {id: user._id},
+            process.env.ACCESS_TOKEN_SECRET,
+            {expiresIn: '2h'}
+        )
+
+        res.status(200).json({
             error: false,
-            message: "Login Successful",
-            email,
-            accessToken
+            message: "Connected...",
+            token,
+            user: {
+                id: user._id,
+                fullName: user.fullName,
+                email: user.email
+            }
         })
-    } else {
-        return res.status(400).json({
+    } catch(error) {
+        return res.status(500).json({
             error: true,
-            message: "Invalid Credentials"
+            message: error.message
         })
-    } 
+    }
 }) 
 
 // Get User
 const getUser = async (req, res) => {
-    const {user} = req.user;
+    try {
+        const isUser = await User.findById(req.user.id);
 
-    const isUser = await User.findOne({_id: user._id});
+        if(!isUser) {
+            return res.sendStatus(401);
+        }
 
-    if(!isUser) {
-        return res.sendStatus(401);
+        return res.json({
+            user: {
+                fullName: isUser.fullName,
+                email: isUser.email,
+                _id: isUser._id,
+                createOn: isUser.createOn
+            },
+            message: ""
+        })
+    } catch(error) {
+
     }
-
-    return res.json({
-        user: {
-            fullName: isUser.fullName,
-            email: isUser.email,
-            _id: isUser._id,
-            createOn: isUser.createOn
-        },
-        message: ""
-    })
 }
 
 module.exports = {newCount, userCount, login, getUser}

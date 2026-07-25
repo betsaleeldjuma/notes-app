@@ -3,7 +3,7 @@ const Note = require('../models/Note')
 
 const addNote = async (req, res) => {
     const {title, content, tags} = req.body;
-    const {user} = req.user;
+    const userId = req.user.id;
 
     if(!title) {
         return res.status(400).json({error: true, message: "Title is required"})
@@ -18,7 +18,7 @@ const addNote = async (req, res) => {
             title,
             content,
             tags: tags || [],
-            userId: user._id
+            userId: userId
         })
 
         await note.save()
@@ -39,14 +39,14 @@ const addNote = async (req, res) => {
 const editNote = async (req, res) => {
     const noteId = req.params.noteId;
     const {title, content, tags, isPinned} = req.body;
-    const {user} = req.user;
+    const userId = req.user.id;
     
     if(!title && !content && !tags) {
         return res.status(400).json({error: true, message: "No changes provided"})
     }
 
     try {
-        const note = await Note.findOne({_id: noteId, userId: user._id})
+        const note = await Note.findOne({_id: noteId, userId: userId})
         
         if(!note) {
             return res.status(404).json({error: true, message: "Note not found"})
@@ -73,10 +73,8 @@ const editNote = async (req, res) => {
 }
 
 const getAllNotes = async(req, res) => {
-    const {user} = req.user;
-
     try {
-        const notes = (await Note.find({userId: user._id})).sort({isPinned: -1});
+        const notes = await Note.find({userId: req.user.id}).sort({isPinned: -1});
 
         return res.json({
             error: false,
@@ -93,16 +91,16 @@ const getAllNotes = async(req, res) => {
 
 const deleteNote = async (req, res) => {
     const noteId = req.params.noteId;
-    const {user} = req.user;
+    const userId = req.user.id;
     
     try {
-        const note = await Note.findOne({_id: noteId, userId: user._id});
+        const note = await Note.findOne({_id: noteId, userId: userId});
 
         if(!note){
             return res.status(400).json({error: true, message: "Note not found"});
         }
 
-        await Note.deleteOne({_id: noteId, userId: user._id});
+        await Note.deleteOne({_id: noteId, userId: userId});
 
         return res.json({
             error: false,
@@ -119,14 +117,14 @@ const deleteNote = async (req, res) => {
 const updateIsPinned = async (req, res) => {
     const noteId = req.params.noteId;
     const {isPinned} = req.body;
-    const {user} = req.user;
+    const userId = req.user.id;
     
-    if(!isPinned) {
+    if(typeof isPinned !== "boolean") {
         return res.status(400).json({error: true, message: "No changes provided"})
     }
 
     try {
-        const note = await Note.findOne({_id: noteId, userId: user._id})
+        const note = await Note.findOne({_id: noteId, userId: userId})
         
         if(!note) {
             return res.status(404).json({error: true, message: "Note not found"})
@@ -149,5 +147,38 @@ const updateIsPinned = async (req, res) => {
     }
 }
 
+const searchNotes = async (req, res) => {
+    const userId = req.user.id;
+    const {query} = req.query;
 
-module.exports = {addNote, editNote, getAllNotes, deleteNote, updateIsPinned}
+    if(!query) {
+        return res.status(400).json({
+            error: true,
+            message: 'Search query is required'
+        })
+    }
+
+    try {
+        const matchingNotes = await Note.find({
+            userId: userId,
+            $or: [
+                {title: {$regex: new RegExp(query, 'i')}},
+                {content: {$regex: new RegExp(query, "i")}}
+            ]
+        })
+
+        return res.json({
+            error: false,
+            notes: matchingNotes,
+            message: "Note matching the search query retrieved successfully"
+        })
+    } catch (error) {
+        return res.status(500).json({
+            error: true,
+            message: 'Internal Server Error'
+        })
+    }
+}
+
+
+module.exports = {addNote, editNote, getAllNotes, deleteNote, updateIsPinned, searchNotes}
