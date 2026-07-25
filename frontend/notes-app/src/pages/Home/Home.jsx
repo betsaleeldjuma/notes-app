@@ -134,7 +134,7 @@ const Home = () => {
   }
 
   useEffect(() => {
-    handleCloseToast("Note Updated Successfully")
+    showToastMessage("Note Updated Successfully")
     getAllNotes()
     getUserInfo();
     return () => {}
