@@ -11,7 +11,7 @@ const routes = (
       <Route path='/' element={<Login />} />
       <Route path="/dashboard" element ={<Home />} />
       <Route path="/login" element ={<Login />} />
-      <Route path="/signUp" element ={<SignUp />} />
+      <Route path="/signup" element ={<SignUp />} />
     </Routes>
   </Router>
 );
