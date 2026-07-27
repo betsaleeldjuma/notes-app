@@ -14,7 +14,7 @@ const SignUp = () => {
   const navigate = useNavigate()
 
   const handleSignUp = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if(!name) {
       setError('Please enter your name');
