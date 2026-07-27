@@ -22,7 +22,8 @@ app.use(express.json());
 
 app.use(
     cors({
-        origin: "https://notes-app-indol-chi.vercel.app/",
+        origin: ["http://localhost:5173", "https://notes-app-indol-chi.vercel.app" ],
+        credentials: true
     })
 );
 
