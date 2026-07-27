@@ -22,7 +22,7 @@ app.use(express.json());
 
 app.use(
     cors({
-        origin: "https://notes-app-kzsn.onrender.com",
+        origin: "https://notes-app-indol-chi.vercel.app/",
     })
 );
 
