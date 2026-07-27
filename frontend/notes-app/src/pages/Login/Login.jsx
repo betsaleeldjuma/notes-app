@@ -48,7 +48,7 @@ const Login = () => {
 
   return (
     <>
-        <Navbar />
+        {/* <Navbar /> */}
         <div className='flex items-center justify-center mt-28'>
             <div className='w-96 border rounded bg-white px-7 py-18'>
                 <form onSubmit={handleLogin}>
@@ -59,7 +59,7 @@ const Login = () => {
                     <button type='submit' className='btn-primary'>Login</button>
                     <p className='text-sm text-center mt-4'>
                         Not registered yet?{" "}
-                        <Link to="/signUp" className='font-medium text-primary underline'>Create an Account</Link>    
+                        <Link to="/signup" className='font-medium text-primary underline'>Create an Account</Link>    
                     </p>  
                 </form>
             </div>
