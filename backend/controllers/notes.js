@@ -97,7 +97,7 @@ const deleteNote = async (req, res) => {
         const note = await Note.findOne({_id: noteId, userId: userId});
 
         if(!note){
-            return res.status(400).json({error: true, message: "Note not found"});
+            return res.status(404).json({error: true, message: "Note not found"});
         }
 
         await Note.deleteOne({_id: noteId, userId: userId});
@@ -130,7 +130,7 @@ const updateIsPinned = async (req, res) => {
             return res.status(404).json({error: true, message: "Note not found"})
         }
 
-        if(isPinned) note.isPinned = isPinned ;
+        note.isPinned = isPinned ;
 
         await note.save();
 

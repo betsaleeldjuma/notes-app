@@ -41,14 +41,9 @@ const SignUp = () => {
                 password: password
             });
 
-            if(response.data && response.data.accessToken) {
-                setError(response.data.message)
-                return
-            }
-
-            if(response.data && response.data.accessToken) {
-              localStorage.setItem("token", response.data.accessToken)
-              navigate('/dashboard')
+            if(response.data && response.data.token) {
+              localStorage.setItem("token", response.data.token);
+              navigate('/dashboard');
             }
         } catch (error) {
             if(error.response && error.response.data && error.response.data.message) {

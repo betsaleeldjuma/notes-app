@@ -33,20 +33,40 @@ const Home = () => {
     setOpenAddEditModal({isShow: true, data: noteDetails, type: "edit"})
   }
 
-  const handleCloseToast = (message, type = 'add') => {
+  const handleNoteSaved = (type) => {
+    if(type === "add") {
+      showToastMessage("Note Added Successfully", "add")
+    } else {
+      showToastMessage("Note Updated Successfully", "add")
+    }
+
+    getAllNotes()
+  }
+
+  const showToastMessage = (message, type = "add") => {
     setShowToastMsg({
       isShow: true,
-      message,
-      type
+      message: message,
+      type: type
     })
-  } 
 
-  const showToastMessage = () => {
-    setShowToastMsg({
-      isShow: false,
-      message: ''
-    })
-  } 
+    setTimeout(() => {
+      setShowToastMsg({
+        isShow: false,
+        message: "",
+        type: "add"
+      })
+    }, 3000)
+  }
+
+
+const handleCloseToast = () => {
+  setShowToastMsg({
+    isShow: false,
+    message: "",
+    type: "add"
+  })
+}  
 
   const getUserInfo = async () => {
     try{
@@ -67,8 +87,7 @@ const Home = () => {
 
   const getAllNotes = async () => {
     try {
-      const data = allNotes
-      const response = await axiosInstance.get('/get-all-notes', data)
+      const response = await axiosInstance.get('/get-all-notes')
 
       if(response.data && response.data.notes) {
         setAllNotes(response.data.notes)
@@ -121,11 +140,11 @@ const Home = () => {
 
         try {
             const response = await axiosInstance.put('/update-note-pinned/' + noteId, {
-                isPinned: noteData.isPinned
+                isPinned: !noteData.isPinned
             })
 
             if(response.data && response.data.note) {
-                showToastMessage('Note Updated Successfully')
+                showToastMessage('Note Updated Successfully', 'add')
                 getAllNotes()
             }
         } catch (error) {
@@ -134,7 +153,6 @@ const Home = () => {
   }
 
   useEffect(() => {
-    showToastMessage("Note Updated Successfully")
     getAllNotes()
     getUserInfo();
     return () => {}
@@ -179,10 +197,10 @@ const Home = () => {
           type={openAddEditModal.type}
           noteData={openAddEditModal.data}
           onClose={() => {
-            setOpenAddEditModal({isShow: false, type:'add', data: 'null'});
+            setOpenAddEditModal({isShow: false, type:'add', data: null});
           }}
           getAllNotes={getAllNotes}
-          showToastMessage={showToastMessage}
+          showToastMessage={handleNoteSaved}
           />
         </Modal>
 
