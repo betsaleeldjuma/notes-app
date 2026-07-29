@@ -14,7 +14,7 @@ const routerNote = require('./routers/notes');
 
 const PORT = process.env.PORT || 3000;
 
-const DATABASE_URL = process.env.DATABASE_URL || config.connectionString
+const DATABASE_URL = process.env.DATABASE_URL
 
 connectDB(DATABASE_URL)
 
@@ -22,7 +22,11 @@ app.use(express.json());
 
 app.use(
     cors({
-        origin: ["http://localhost:5173", "https://notes-app-indol-chi.vercel.app"],
+      origin: [
+        "http://localhost:5173",
+        "https://notes-app-indol-chi.vercel.app",
+        "https://notes-3jrtr1rx0-betsaleel-djumas-projects.vercel.app"
+      ],
     })
 );
 
