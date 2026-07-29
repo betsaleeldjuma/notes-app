@@ -14,7 +14,11 @@ const routerNote = require('./routers/notes');
 
 const PORT = process.env.PORT || 3000;
 
-const DATABASE_URL = process.env.DATABASE_URL
+const DATABASE_URL = process.env.DATABASE_URL || config.connectionString
+
+if(!DATABASE_URL) {
+  console.error('DATABASE_URL is not defined. Provide it via env or config.json')
+}
 
 connectDB(DATABASE_URL)
 

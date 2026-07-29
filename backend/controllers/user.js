@@ -54,6 +54,7 @@ const newCount =  async (req, res) => {
             }
         })
     } catch (error) {
+        console.error(error)
         res.status(500).json({
             error: true,
             message: error.message
@@ -91,6 +92,11 @@ const login = (async (req, res) => {
             })
         }
 
+        if(!process.env.ACCESS_TOKEN_SECRET) {
+            console.error('ACCESS_TOKEN_SECRET is not defined')
+            return res.status(500).json({ error: true, message: 'Server configuration error' })
+        }
+
         const token = jwt.sign(
             {id: user._id},
             process.env.ACCESS_TOKEN_SECRET,
@@ -108,6 +114,7 @@ const login = (async (req, res) => {
             }
         })
     } catch(error) {
+        console.error(error)
         return res.status(500).json({
             error: true,
             message: error.message
@@ -134,7 +141,8 @@ const getUser = async (req, res) => {
             message: ""
         })
     } catch(error) {
-
+        console.error(error)
+        return res.status(500).json({ error: true, message: error.message })
     }
 }
 
