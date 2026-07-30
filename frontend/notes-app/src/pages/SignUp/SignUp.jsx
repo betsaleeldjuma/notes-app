@@ -57,10 +57,10 @@ const SignUp = () => {
   return (
     <>
         {/* <Navbar /> */}
-        <div className='flex items-center justify-center mt-28'>
+        <div className='flex items-center justify-center mt-20 lg:mt-28 p-5 lg:p-0'>
           <div className='w-96 border rounded bg-white px-7 py-18'>
             <form onSubmit={handleSignUp}>
-              <h4 className='text-2xl mb-7'>Login</h4>
+              <h4 className='text-2xl text-primary mb-7'><strong>SignUp</strong></h4>
               <input 
               type='text' 
               placeholder='Name' 

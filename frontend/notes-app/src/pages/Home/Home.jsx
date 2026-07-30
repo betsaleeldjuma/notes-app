@@ -162,7 +162,9 @@ const handleCloseToast = () => {
     <>
       <Navbar userInfo={userInfo} onSearchNote={onSearchNote} handleClearSearch={handleClearSearch} />
       <div className='container mx-auto'>
-        <div className='flex flex-row flex-wrap justify-center items-center gap-4 mt-8'>
+        {allNotes?.length === 0 ? <div className='w-screeb h-screen'>
+          <EmptyCard />
+        </div> : <div className='flex flex-row flex-wrap justify-center items-center gap-4 mt-8'>
           {allNotes.map((item) => (<NoteCard 
             key={item._id}
             title={item.title} 
@@ -174,7 +176,8 @@ const handleCloseToast = () => {
             onPinNote={() => updateIsPinned(item)}  
             />)
           )}
-        </div>
+        </div>}
+        
         <button className='w-12 h-12 lg:w-16 lg:h-16 flex items-center justify-center rounded-lg lg:rounded-2xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10' 
         onClick={() => {
           setOpenAddEditModal({isShow: true, type:"add", data: null})

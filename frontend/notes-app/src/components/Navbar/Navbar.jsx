@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import ProfilInfo from '../Cards/ProfilInfo'
 import { useNavigate } from 'react-router-dom'
 import SearchBar from '../SearchBar/SearchBar';
+import { PiNotePencilBold } from "react-icons/pi";
 
 const Navbar = ({userInfo, onSearchNote, handleClearSearch}) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -25,7 +26,7 @@ const Navbar = ({userInfo, onSearchNote, handleClearSearch}) => {
 
   return (
     <div className='bg-white flex items-center justify-between px-6 py-2 drop-shadow'>
-        <h2 className='text-xl font-medium text-black py-2'>Notes</h2>
+        <h2 className='text-xl font-medium text-black py-2 flex items-center gap-2'><PiNotePencilBold size={30} className='text-primary' />Notes</h2>
         <SearchBar
         value={searchQuery}
         onChange={({target}) => {

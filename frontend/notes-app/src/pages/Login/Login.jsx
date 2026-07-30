@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import PasswordInput from '../../components/Input/PasswordInput'
 import { validateEmail } from '../../utils/helper'
 import axiosInstance from '../../utils/axiosInstance'
+import { RiLoginCircleFill } from "react-icons/ri";
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -49,10 +50,10 @@ const Login = () => {
   return (
     <>
         {/* <Navbar /> */}
-        <div className='flex items-center justify-center mt-28'>
+        <div className='flex items-center justify-center mt-25 lg:mt-28 p-5 lg:p-0'>
             <div className='w-96 border rounded bg-white px-7 py-18'>
                 <form onSubmit={handleLogin}>
-                    <h4 className='text-2xl mb-7'>Login</h4>
+                    <h4 className='text-2xl mb-7 flex items-center gap-1'><RiLoginCircleFill className='text-primary' />Login</h4>
                     <input type='text' placeholder='Email' className='input-box' value={email} onChange={(e) => setEmail(e.target.value)} />
                     <PasswordInput value={password} onChange={(e) => setPassword(e.target.value)} />
                     {error && <p className='text-red-500 text-xs pb-1'>{error}</p>}
