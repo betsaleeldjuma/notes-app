@@ -8,8 +8,8 @@ const SearchBar = ({value, onChange, handleSearch, onClearSearch}) => {
   return (
     <div className='w-80 flex items-center px-4 lg:bg-slate-100 rounded-md'>
       <div className='block lg:hidden flex items-center gap-5'>
-        <FaMagnifyingGlass className='text-slate-400 cursor-pointer hover:text-black' onClick={() => setIsOpen(true)} />
-        {isOpen && (<div className='absolute top-13 left-20 flex justify-center items-center gap-5 rounded-full pr-3 pl-3 bg-slate-100'>
+        <FaMagnifyingGlass className='text-slate-400 cursor-pointer hover:text-black' onClick={() => setIsOpen(!isOpen)} />
+        {isOpen && (<div className='absolute top-13 left-20 flex justify-center items-center gap-5 rounded-full pr-3 pl-3 bg-slate-100 shadow-xl'>
           <input 
           type='text'
           placeholder='Search Notes'
