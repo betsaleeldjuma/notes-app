@@ -162,7 +162,7 @@ const handleCloseToast = () => {
     <>
       <Navbar userInfo={userInfo} onSearchNote={onSearchNote} handleClearSearch={handleClearSearch} />
       <div className='container mx-auto'>
-        <div className='grid grid-cols-3 gap-4 mt-8'>
+        <div className='flex flex-row flex-wrap justify-center items-center gap-4 mt-8'>
           {allNotes.map((item) => (<NoteCard 
             key={item._id}
             title={item.title} 
@@ -175,7 +175,7 @@ const handleCloseToast = () => {
             />)
           )}
         </div>
-        <button className='w-16 h-16 flex items-center justify-center rounded-2xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10' 
+        <button className='w-12 h-12 lg:w-16 lg:h-16 flex items-center justify-center rounded-lg lg:rounded-2xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10' 
         onClick={() => {
           setOpenAddEditModal({isShow: true, type:"add", data: null})
         }}
@@ -191,7 +191,7 @@ const handleCloseToast = () => {
           }
         }}
         contentLabel=""
-        className="w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-14 p-5 overflow-scroll"
+        className="w-[90%] lg:w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-14 p-5 overflow-scroll flex flex-row justify-center"
         >
           <AddEditNotes 
           type={openAddEditModal.type}
