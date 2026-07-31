@@ -8,22 +8,25 @@ const ProfilInfo = ({userInfo, onLogout}) => {
     if(!userInfo) return null;
 
   return (
-    <div className='flex items-center gap-3'>
-        <div className='flex flex-col gap-3'>
+    <div>
+        <div className='block lg:hidden flex flex-col gap-3'>
             <div className='w-8 h-8 lg:w-12 lg:h-12 flex items-center justify-center rounded-full text-slate-950 font-medium bg-slate-100'>
                 {getInitials(userInfo.fullName)}
             </div>
-            <button className='block lg:hidden text-sm text-slate-700 underline' onClick={onLogout}>
-                {t("Logout")}
-            </button>
-        </div>
-        <div className=''>
-            <p className='text-sm font-medium'>{userInfo.fullName}</p>
-        </div>
-        <div>
             <button className='text-sm text-slate-700 underline' onClick={onLogout}>
                 {t("Logout")}
             </button>
+        </div>
+        <div className='hidden lg:block flex justify-center gap-3'>
+            <div className='w-8 h-8 lg:w-12 lg:h-12 flex items-center justify-center rounded-full text-slate-950 font-medium bg-slate-100'>
+                {getInitials(userInfo.fullName)}
+            </div>
+            <div className='flex flex-col items-start gap-2'>
+                <p className='text-sm font-medium'>{userInfo.fullName}</p>
+                <button className='text-sm text-slate-700 underline' onClick={onLogout}>
+                    {t("Logout")}
+                </button>
+            </div>
         </div>
     </div>
   )

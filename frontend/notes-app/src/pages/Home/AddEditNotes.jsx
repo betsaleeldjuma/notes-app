@@ -80,7 +80,7 @@ const AddEditNotes = ({noteData, type, getAllNotes , onClose, showToastMessage})
     }
 
   return (
-    <div className='relative'>
+    <div className='relative w-[100%] lg:w-none'>
         <button
         className='w-10 h-10 rounded-full flex items-center justify-center absolute -top-3 -right-3 hover:bg-slate-50'
         onClick={onClose}
@@ -91,13 +91,13 @@ const AddEditNotes = ({noteData, type, getAllNotes , onClose, showToastMessage})
             <label className='input-label'>{t("TITLE")}</label>
             <input 
             type='text'
-            className='text-2xl text-slate-950 outline-none'
+            className='lg:text-2xl text-slate-950 outline-none'
             placeholder={t('Go To Gym At 5')}
             value={title}
             onChange={({target}) => setTitle(target.value)}
             />
         </div>
-        <div className='flex flex-col gap-2 mt-4'>
+        <div className='flex flex-col gap-2 '>
             <label className='input-label'>{t("CONTENT")}</label>
             <textarea
             type='text'

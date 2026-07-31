@@ -43,7 +43,7 @@ const TagInput = ({tags, setTags}) => {
                 ))}
             </div>
         )}
-        <div className='flex items-center gap-4 mt-3'>
+        <div className='flex flex-col lg:flex-row justify-center lg:items-center gap-4 lg:mt-3'>
             <input 
             type='text'
             value={inputValue} 
