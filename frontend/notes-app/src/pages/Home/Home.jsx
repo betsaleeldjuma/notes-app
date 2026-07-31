@@ -153,6 +153,23 @@ const handleCloseToast = () => {
         }
   }
 
+  const duplicateNote = async (noteData) => {
+    try {
+      const response = await axiosInstance.post("/add-note", {
+        title: noteData.title,
+        content: noteData.content,
+        tags: noteData.tags,
+      });
+
+      if (response.data.note) {
+        showToastMessage("Note duplicated successfully", "add");
+        getAllNotes();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+};
+
   useEffect(() => {
     getAllNotes()
     getUserInfo();
@@ -171,10 +188,12 @@ const handleCloseToast = () => {
             title={item.title} 
             date={item.createdOn}
             content={item.content}
+            img={item.img}
             tags={item.tags} isPinned={item.isPinned}
             onEdit={() => handleEdit(item)} 
             onDelete={() => deleteNote(item)} 
-            onPinNote={() => updateIsPinned(item)}  
+            onPinNote={() => updateIsPinned(item)}
+            onDuplicate={() => duplicateNote(item)}  
             />)
           )}
         </div>}

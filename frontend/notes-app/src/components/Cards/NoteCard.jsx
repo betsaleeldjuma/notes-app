@@ -2,8 +2,9 @@ import React from 'react'
 import moment from 'moment'
 import { MdOutlinePushPin } from 'react-icons/md'  
 import { MdCreate, MdDelete } from 'react-icons/md'
+import { IoDuplicate } from "react-icons/io5";
 
-const NoteCard = ({title, date, content, tags, isPinned, onEdit, onDelete, onPinNote}) => {
+const NoteCard = ({title, date, content, img, tags, isPinned, onEdit, onDelete, onPinNote, onDuplicate}) => {
   return (
     <div className='border rounded p-2 bg-white hover:shadow-xl transition-all ease-in-out'>
         <div className='flex items-center justify-between'>
@@ -14,6 +15,7 @@ const NoteCard = ({title, date, content, tags, isPinned, onEdit, onDelete, onPin
             <MdOutlinePushPin className={`icon-btn ${isPinned ? 'text-blue-500': 'text-slate-300'}`} onClick={onPinNote} />
         </div>
         <p className='text-xs text-slate-600 mt-2'>{content?.slice(0, 60)}</p>
+        <div>{img}</div>
         <div className='flex items-center justify-between mt-2'>
             <div className='text-xs text-slate-500'>{tags.map((item) => `${item} `)}</div>
             <div>
@@ -24,6 +26,10 @@ const NoteCard = ({title, date, content, tags, isPinned, onEdit, onDelete, onPin
                 <MdDelete
                 className='icon-btn hover:text-red-500'
                 onClick={onDelete}
+                />
+                <IoDuplicate
+                className='icon-btn hover:text-slate-600'
+                onClick={onDuplicate}
                 />
             </div>
         </div>
