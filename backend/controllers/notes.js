@@ -2,7 +2,7 @@ const authentificateToken = require('../utilities')
 const Note = require('../models/Note')
 
 const addNote = async (req, res) => {
-    const {title, content, tags} = req.body;
+    const {title, content, img, tags} = req.body;
     const userId = req.user.id;
 
     if(!title) {
@@ -17,6 +17,7 @@ const addNote = async (req, res) => {
         const note = new Note({
             title,
             content,
+            img,
             tags: tags || [],
             userId: userId
         })
@@ -38,7 +39,7 @@ const addNote = async (req, res) => {
 
 const editNote = async (req, res) => {
     const noteId = req.params.noteId;
-    const {title, content, tags, isPinned} = req.body;
+    const {title, content, img, tags, isPinned} = req.body;
     const userId = req.user.id;
     
     if(!title && !content && !tags) {
@@ -54,6 +55,7 @@ const editNote = async (req, res) => {
 
         if(title) note.title = title;
         if(content) note.content = content;
+        if(img) note.img = img;
         if(tags) note.tags = tags;
         if(isPinned) note.isPinned = isPinned;
 

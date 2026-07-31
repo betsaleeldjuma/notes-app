@@ -3,11 +3,13 @@ import TagInput from '../../components/Input/TagInput'
 import { MdClose } from 'react-icons/md';
 import axiosInstance from '../../utils/axiosInstance';
 import { useTranslation } from 'react-i18next';
+import ImageInput from '../../components/Input/ImageInput';
 
 const AddEditNotes = ({noteData, type, getAllNotes , onClose, showToastMessage}) => {
     const {t} = useTranslation();
     const [title, setTitle] = useState(noteData?.title || "");
     const [content, setContent] = useState(noteData?.content || '');
+    const [img, setImg] = useState(noteData?.content || [])
     const [tags, setTags] = useState(noteData?.tags || [])
 
     const [error, setError] = useState(null)
@@ -18,6 +20,7 @@ const AddEditNotes = ({noteData, type, getAllNotes , onClose, showToastMessage})
             const response = await axiosInstance.post('/add-note', {
                 title,
                 content,
+                img,
                 tags
             })
 
@@ -40,6 +43,7 @@ const AddEditNotes = ({noteData, type, getAllNotes , onClose, showToastMessage})
             const response = await axiosInstance.put('/edit-note/' + noteId, {
                 title,
                 content,
+                img,
                 tags
             })
 
@@ -97,12 +101,16 @@ const AddEditNotes = ({noteData, type, getAllNotes , onClose, showToastMessage})
             <label className='input-label'>{t("CONTENT")}</label>
             <textarea
             type='text'
-            className='text-sm text-sltate-950 outline-none bg-slate-50 p-2 rounded'
+            className='text-sm text-slate-950 outline-none bg-slate-50 p-2 rounded'
             placeholder={t('Content')}
             rows={10}
             value={content}
             onChange={({target}) => setContent(target.value)}
             />
+        </div>
+        <div>
+            <label className='input-label'>{t("IMAGES")}</label>
+            <ImageInput />
         </div>
         <div className='mt-3'>
             <label className='input-label'>{t("TAGS")}</label>

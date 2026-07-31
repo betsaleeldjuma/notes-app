@@ -47,7 +47,7 @@ const TagInput = ({tags, setTags}) => {
             <input 
             type='text'
             value={inputValue} 
-            className='text-sm bg-transparent border px-3 py-2 rounded outline-none' 
+            className='text-sm bg-slate-50 px-3 py-2 rounded outline-none' 
             placeholder={t('Add tags')}
             onChange={handleInputChange} 
             />

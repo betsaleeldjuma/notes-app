@@ -5,7 +5,7 @@
     "Déconnexion": "Logout",
     "Contenu": "Content",
     "CONTENU": "CONTENT",
-    "Balises": "TAGS",
+    "BALISES": "TAGS",
     "Ajouter": "Add",
     "Aller à la salle à 5h": "Go To Gym At 5",
     "Se connecter": "Login",
@@ -19,5 +19,8 @@
     "Créer un compte": "Create Account",
     "S'inscrire": "SignUp",
     "Ajouter des balises": "Add tags",
-    "Noms": "Names"
+    "Noms": "Names",
+    "Ajouter des images": "Add Images",
+    "IMAGES": "IMAGES",
+    "Chercher vos notes": "Search your notes"
 }
