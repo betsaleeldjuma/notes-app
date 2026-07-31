@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next';
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa6'
 
 const PasswordInput = ({value, onChange, placeholder}) => {
+    const {t} = useTranslation()
     const [isShowPassword, setIsShowPassword] = useState(false);
 
     const toggleShowPassword = () => {
@@ -14,7 +16,7 @@ const PasswordInput = ({value, onChange, placeholder}) => {
         value={value}
         onChange={onChange}
         type={isShowPassword ? 'text' : 'password'}
-        placeholder={placeholder || "Password"}
+        placeholder={placeholder || t("Password")}
         className='w-full text-sm bg-transparent py-3 rounded outline-none'
         />
         {isShowPassword ? <FaRegEye 

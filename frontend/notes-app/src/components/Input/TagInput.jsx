@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next';
 import { MdAdd, MdClose } from 'react-icons/md'
 
 const TagInput = ({tags, setTags}) => {
+    const {t} = useTranslation()
     const [inputValue, setInputValue] = useState("");
 
     const handleInputChange = (e) => {
@@ -46,7 +48,7 @@ const TagInput = ({tags, setTags}) => {
             type='text'
             value={inputValue} 
             className='text-sm bg-transparent border px-3 py-2 rounded outline-none' 
-            placeholder='Add tags'
+            placeholder={t('Add tags')}
             onChange={handleInputChange} 
             />
             <button 

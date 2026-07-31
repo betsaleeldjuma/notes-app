@@ -1,7 +1,10 @@
 import React from 'react'
 import { getInitials } from '../../utils/helper'
+import { useTranslation } from 'react-i18next';
 
 const ProfilInfo = ({userInfo, onLogout}) => {
+    const {t} = useTranslation()
+
     if(!userInfo) return null;
 
   return (
@@ -11,7 +14,7 @@ const ProfilInfo = ({userInfo, onLogout}) => {
                 {getInitials(userInfo.fullName)}
             </div>
             <button className='block lg:hidden text-sm text-slate-700 underline' onClick={onLogout}>
-                Logout
+                {t("Logout")}
             </button>
         </div>
         <div className=''>
@@ -19,7 +22,7 @@ const ProfilInfo = ({userInfo, onLogout}) => {
         </div>
         <div>
             <button className='text-sm text-slate-700 underline' onClick={onLogout}>
-                Logout
+                {t("Logout")}
             </button>
         </div>
     </div>

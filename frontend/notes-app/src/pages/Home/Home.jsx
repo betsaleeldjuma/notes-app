@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import axiosInstance from '../../utils/axiosInstance'
 import Toast from '../../components/ToastMessage/Toast'
 import EmptyCard from '../../components/EmptyCard/EmptyCard'
+import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher'
 
 const Home = () => {
   const [openAddEditModal, setOpenAddEditModal] = useState({
@@ -162,7 +163,7 @@ const handleCloseToast = () => {
     <>
       <Navbar userInfo={userInfo} onSearchNote={onSearchNote} handleClearSearch={handleClearSearch} />
       <div className='container mx-auto'>
-        {allNotes?.length === 0 ? <div className='w-screeb h-screen'>
+        {allNotes?.length === 0 ? <div>
           <EmptyCard />
         </div> : <div className='flex flex-row flex-wrap justify-center items-center gap-4 mt-8'>
           {allNotes.map((item) => (<NoteCard 
@@ -213,6 +214,9 @@ const handleCloseToast = () => {
         type={showToastMsg.type}
         onClose={handleCloseToast}
         />
+      </div>
+      <div className='absolute bottom-11 left-5 z-100'>
+          <LanguageSwitcher />
       </div>
     </>
   )

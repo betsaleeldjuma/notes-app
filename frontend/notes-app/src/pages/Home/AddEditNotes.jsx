@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import TagInput from '../../components/Input/TagInput'
 import { MdClose } from 'react-icons/md';
 import axiosInstance from '../../utils/axiosInstance';
+import { useTranslation } from 'react-i18next';
 
 const AddEditNotes = ({noteData, type, getAllNotes , onClose, showToastMessage}) => {
+    const {t} = useTranslation();
     const [title, setTitle] = useState(noteData?.title || "");
     const [content, setContent] = useState(noteData?.content || '');
     const [tags, setTags] = useState(noteData?.tags || [])
@@ -82,33 +84,33 @@ const AddEditNotes = ({noteData, type, getAllNotes , onClose, showToastMessage})
          <MdClose className='text-xl text-slate-400' />   
         </button>
         <div className='flex flex-col gap-2'>
-            <label className='input-label'>TITLE</label>
+            <label className='input-label'>{t("TITLE")}</label>
             <input 
             type='text'
             className='text-2xl text-slate-950 outline-none'
-            placeholder='Go To Gym At 5'
+            placeholder={t('Go To Gym At 5')}
             value={title}
             onChange={({target}) => setTitle(target.value)}
             />
         </div>
         <div className='flex flex-col gap-2 mt-4'>
-            <label className='input-label'>CONTENT</label>
+            <label className='input-label'>{t("CONTENT")}</label>
             <textarea
             type='text'
             className='text-sm text-sltate-950 outline-none bg-slate-50 p-2 rounded'
-            placeholder='Content'
+            placeholder={t('Content')}
             rows={10}
             value={content}
             onChange={({target}) => setContent(target.value)}
             />
         </div>
         <div className='mt-3'>
-            <label className='input-label'>TAGS</label>
+            <label className='input-label'>{t("TAGS")}</label>
             <TagInput tags={tags} setTags={setTags} />
         </div>
         {error && <p className='text-red-500 text-xs pt-4'>{error}</p>}
         <button className='btn-primary font-medium mt-5 p-3' onClick={handleAddNote}>
-            {type ==="edit" ? 'UPDATE' : "ADD"}
+            {type ==="edit" ? t("UPDATE") : t("ADD")}
         </button>
     </div>
   )
