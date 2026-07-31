@@ -9,7 +9,7 @@ const ProfilInfo = ({userInfo, onLogout}) => {
 
   return (
     <div>
-        <div className='block lg:hidden flex flex-col gap-2'>
+        <div className='block lg:hidden flex flex-col gap-2 lg:gap-3'>
             <div className='w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center rounded-full text-slate-950 font-medium bg-slate-100'>
                 {getInitials(userInfo.fullName)}
             </div>

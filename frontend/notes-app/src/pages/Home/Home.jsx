@@ -182,7 +182,7 @@ const handleCloseToast = () => {
       <div className='container mx-auto'>
         {allNotes?.length === 0 ? <div>
           <EmptyCard />
-        </div> : <div className='flex flex-row flex-wrap justify-center items-center gap-4 mt-8'>
+        </div> : <div className='flex flex-wrap justify-center items-center gap-4 mt-8'>
           {allNotes.map((item) => (<NoteCard 
             key={item._id}
             title={item.title} 
